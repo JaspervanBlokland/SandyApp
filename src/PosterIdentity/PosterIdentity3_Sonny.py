@@ -31,6 +31,7 @@ RS = getRootStyle(
 RS['docW'] = W + 200
 RS['docH'] = H + 200
 
+FRAMES = 1
 COLUMNS = 12
 GUTTER = 2
 TITLE = 'Pirates of the Caribbean'
@@ -74,71 +75,50 @@ def drawURL(template, x, y, w, title, align):
         h=fontSize*3, style=style) 
 
 def makeDocument():
-    columnW = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
-    columnH = (RS['h'] - (COLUMNS-1)*GUTTER)/COLUMNS
+    
+    column = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
     gutter = GUTTER
     
     template = Template(RS) # Create template of main size. Front page only.
     # Show grid columns and margins if rootStyle.showGrid or rootStyle.showGridColumns are True
     template.grid(RS) 
-<<<<<<< HEAD:src/PosterIdentityJ/PosterIdentity.py
     
-=======
-    drawBackground(template)
-    drawImage(template, 'images/coin_1.png', 
-        template.style['w']/2, 280,
-        w=template.style['w']/1.5,
-        align=CENTER, vAlign=CENTER)
-    # Calculate date 2 weeks from now
-    dt = datetime.now()
-    d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-    drawDate(template, template.style['w']/2, template.style['h']-columnH, 
-        d, CENTER)
-    drawTitle(template, template.style['w']/2, 120, 
-        template.style['w'] - 2*columnW-2*gutter,
-        TITLE, CENTER)
-    drawCredits(template, template.style['w']/2, 60, 
-        template.style['w'] - 2*columnW-2*gutter,
-        CREDITS, CENTER)
-    drawURL(template, template.style['w']/2, 0, 
-        template.style['w'] - 2*columnW-2*gutter,
-        URL, CENTER)    
->>>>>>> origin/master:src/PosterIdentityJ/PosterIdentityJ.py
     # Show baseline grid if rs.showBaselineGrid is True
-    # Create empty image place holders. To be filled by running content on the page0
-    # template.cContainer(2, -0.7, 5, 4, rs)  # Empty image element, cx, cy, cw, ch
+    # Create empty image place holders. To be filled by running content on the page.
+    #template.cContainer(2, -0.7, 5, 4, rs)  # Empty image element, cx, cy, cw, ch
     # Create new document with (w,h) and fixed amount of pages.
     # Make number of pages with default document size.
     # Initially make all pages default with template2
-    doc = Document(RS, pages=1, template=template) 
-<<<<<<< HEAD:src/PosterIdentityJ/PosterIdentity.py
-    for n in range(30):
-        page = doc.newPage(w=template.style['w']+n*20)
+    doc = Document(RS, pages=1, template=template)
+    n = 0
+    step = 1
+    for frame in range(60):
+        page = doc.newPage(w=template.style['w']-n*10)
         drawBackground(page)
         drawImage(page, 'images/coin_1.png', 
-            template.style['w']/2, 280,
-            w=template.style['w']/1.5,
+            page.style['w']/2, 280,
+            w=page.style['w']-2*column,
             align=CENTER, vAlign=CENTER)
         # Calculate date 2 weeks from now
         dt = datetime.now()
         d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-        drawDate(page, page.style['w']/2, template.style['h']-50, 
+        drawDate(page, page.style['w']/2, page.style['h']-50, 
             d, CENTER)
+        print page.style
         drawTitle(page, page.style['w']/2, 120, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             TITLE, CENTER)
         drawCredits(page, page.style['w']/2, 60, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             CREDITS, CENTER)
         drawURL(page, page.style['w']/2, 40, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             URL, CENTER)
+        if frame == 30:
+            step = -step
+        n += step
 
 
-=======
-    for n in range(10):
-        doc.newPage(w=RS['w']+n*100)
->>>>>>> origin/master:src/PosterIdentityJ/PosterIdentityJ.py
     return doc
     
 d = makeDocument()
