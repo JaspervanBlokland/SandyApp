@@ -81,25 +81,6 @@ def makeDocument():
     template = Template(RS) # Create template of main size. Front page only.
     # Show grid columns and margins if rootStyle.showGrid or rootStyle.showGridColumns are True
     template.grid(RS) 
-    drawBackground(template)
-    drawImage(template, 'images/coin_1.png', 
-        template.style['w']/2, 280,
-        w=template.style['w']/1.5,
-        align=CENTER, vAlign=CENTER)
-    # Calculate date 2 weeks from now
-    dt = datetime.now()
-    d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-    drawDate(template, template.style['w']/2, template.style['h']-50, 
-        d, CENTER)
-    drawTitle(template, template.style['w']/2, 120, 
-        template.style['w'] - 2*column-2*gutter,
-        TITLE, CENTER)
-    drawCredits(template, template.style['w']/2, 60, 
-        template.style['w'] - 2*column-2*gutter,
-        CREDITS, CENTER)
-    drawURL(template, template.style['w']/2, 40, 
-        template.style['w'] - 2*column-2*gutter,
-        URL, CENTER)
     
     # Show baseline grid if rs.showBaselineGrid is True
     # Create empty image place holders. To be filled by running content on the page.
@@ -109,7 +90,28 @@ def makeDocument():
     # Initially make all pages default with template2
     doc = Document(RS, pages=1, template=template) 
     for n in range(30):
-        doc.newPage(w=RS['w']+n*20)
+        page = doc.newPage(w=template.style['w']+n*20)
+        drawBackground(page)
+        drawImage(page, 'images/coin_1.png', 
+            template.style['w']/2, 280,
+            w=template.style['w']/1.5,
+            align=CENTER, vAlign=CENTER)
+        # Calculate date 2 weeks from now
+        dt = datetime.now()
+        d = dt.strftime("%d|%m|%y") # Make formatted string from date.
+        drawDate(page, page.style['w']/2, template.style['h']-50, 
+            d, CENTER)
+        drawTitle(page, page.style['w']/2, 120, 
+            template.style['w'] - 2*column-2*gutter,
+            TITLE, CENTER)
+        drawCredits(page, page.style['w']/2, 60, 
+            template.style['w'] - 2*column-2*gutter,
+            CREDITS, CENTER)
+        drawURL(page, page.style['w']/2, 40, 
+            template.style['w'] - 2*column-2*gutter,
+            URL, CENTER)
+
+
     return doc
     
 d = makeDocument()
