@@ -35,8 +35,9 @@ FRAMES = 1
 COLUMNS = 12
 GUTTER = 2
 TITLE = 'Pirates of the Caribbean'
-CREDITS = 'Film by Andrew Clime'
+CREDITS = 'A Film by Andrew Kliment'
 URL = 'www.loganshort.com'
+INFO = '€15 ADMISSION / STREETNAME 123 / CITY'
 
 def drawBackground(page):
     page.rect(-OVER_FILL, -OVER_FILL, 
@@ -62,7 +63,7 @@ def drawTitle(template, x, y, w, title, align):
 
 def drawCredits(template, x, y, w, title, align):
     fontSize = 25
-    style = makeStyle(template.style, align=align, fontSize=fontSize, fill=NO_COLOR, font='Antenna-Thin', textFill=1, leading=fontSize*1.1)
+    style = makeStyle(template.style, align=align, fontSize=fontSize, fill=NO_COLOR, font='Antenna-Thin', textFill=1, leading=fontSize*1.1, tracking=1)
     fs = getFormattedString(title, style);
     template.textBox(fs, x, y, w=w,
         h=fontSize*3, style=style) 
@@ -73,10 +74,18 @@ def drawURL(template, x, y, w, title, align):
     fs = getFormattedString(title, style);
     template.textBox(fs, x, y, w=w,
         h=fontSize*3, style=style) 
-
+        
+def drawINFO(template, x, y, w, title, align):
+    fontSize = 10
+    style = makeStyle(template.style, align=align, fontSize=fontSize, fill=NO_COLOR, font='Antenna-Light', textFill=1, leading=fontSize*1.1, tracking=2)
+    fs = getFormattedString(title, style);
+    template.textBox(fs, x, y, w=w,
+        h=fontSize*3, style=style) 
+        
 def makeDocument():
     
-    column = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
+    columnW = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
+    columnH = (RS['h'] - (COLUMNS-1)*GUTTER)/COLUMNS
     gutter = GUTTER
     
     template = Template(RS) # Create template of main size. Front page only.
@@ -92,12 +101,12 @@ def makeDocument():
     doc = Document(RS, pages=1, template=template)
     n = 0
     step = 1
-    for frame in range(60):
+    for frame in range(40):
         page = doc.newPage(w=template.style['w']-n*10)
         drawBackground(page)
         drawImage(page, 'images/coin_1.png', 
             page.style['w']/2, 280,
-            w=page.style['w']-2*column,
+            w=page.style['w']-2*columnW,
             align=CENTER, vAlign=CENTER)
         # Calculate date 2 weeks from now
         dt = datetime.now()
@@ -106,14 +115,17 @@ def makeDocument():
             d, CENTER)
         print page.style
         drawTitle(page, page.style['w']/2, 120, 
-            page.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*columnW-2*gutter,
             TITLE, CENTER)
         drawCredits(page, page.style['w']/2, 60, 
-            page.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*columnW-2*gutter,
             CREDITS, CENTER)
-        drawURL(page, page.style['w']/2, 40, 
-            page.style['w'] - 2*column-2*gutter,
+        drawURL(page, page.style['w']/2, 20, 
+            page.style['w'] - 2*columnW-2*gutter,
             URL, CENTER)
+        drawINFO(page, page.style['w']/2, 5, 
+            page.style['w'] - 2*columnW-2*gutter,
+            INFO, CENTER)
         if frame == 30:
             step = -step
         n += step
