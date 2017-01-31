@@ -31,6 +31,7 @@ RS = getRootStyle(
 RS['docW'] = W + 200
 RS['docH'] = H + 200
 
+FRAMES = 1
 COLUMNS = 12
 GUTTER = 2
 TITLE = 'Pirates of the Caribbean'
@@ -88,28 +89,34 @@ def makeDocument():
     # Create new document with (w,h) and fixed amount of pages.
     # Make number of pages with default document size.
     # Initially make all pages default with template2
-    doc = Document(RS, pages=1, template=template) 
-    for n in range(30):
-        page = doc.newPage(w=template.style['w']+n*20)
+    doc = Document(RS, pages=1, template=template)
+    n = 0
+    step = 1
+    for frame in range(60):
+        page = doc.newPage(w=template.style['w']-n*10)
         drawBackground(page)
         drawImage(page, 'images/coin_1.png', 
-            template.style['w']/2, 280,
-            w=template.style['w']/1.5,
+            page.style['w']/2, 280,
+            w=page.style['w']-2*column,
             align=CENTER, vAlign=CENTER)
         # Calculate date 2 weeks from now
         dt = datetime.now()
         d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-        drawDate(page, page.style['w']/2, template.style['h']-50, 
+        drawDate(page, page.style['w']/2, page.style['h']-50, 
             d, CENTER)
+        print page.style
         drawTitle(page, page.style['w']/2, 120, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             TITLE, CENTER)
         drawCredits(page, page.style['w']/2, 60, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             CREDITS, CENTER)
         drawURL(page, page.style['w']/2, 40, 
-            template.style['w'] - 2*column-2*gutter,
+            page.style['w'] - 2*column-2*gutter,
             URL, CENTER)
+        if frame == 30:
+            step = -step
+        n += step
 
 
     return doc
