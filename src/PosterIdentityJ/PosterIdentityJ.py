@@ -74,8 +74,8 @@ def drawURL(template, x, y, w, title, align):
         h=fontSize*3, style=style) 
 
 def makeDocument():
-    
-    column = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
+    columnW = (RS['w'] - (COLUMNS-1)*GUTTER)/COLUMNS
+    columnH = (RS['h'] - (COLUMNS-1)*GUTTER)/COLUMNS
     gutter = GUTTER
     
     template = Template(RS) # Create template of main size. Front page only.
@@ -89,27 +89,26 @@ def makeDocument():
     # Calculate date 2 weeks from now
     dt = datetime.now()
     d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-    drawDate(template, template.style['w']/2, template.style['h']-50, 
+    drawDate(template, template.style['w']/2, template.style['h']-columnH, 
         d, CENTER)
     drawTitle(template, template.style['w']/2, 120, 
-        template.style['w'] - 2*column-2*gutter,
+        template.style['w'] - 2*columnW-2*gutter,
         TITLE, CENTER)
     drawCredits(template, template.style['w']/2, 60, 
-        template.style['w'] - 2*column-2*gutter,
+        template.style['w'] - 2*columnW-2*gutter,
         CREDITS, CENTER)
-    drawURL(template, template.style['w']/2, 40, 
-        template.style['w'] - 2*column-2*gutter,
-        URL, CENTER)
-    
+    drawURL(template, template.style['w']/2, 0, 
+        template.style['w'] - 2*columnW-2*gutter,
+        URL, CENTER)    
     # Show baseline grid if rs.showBaselineGrid is True
-    # Create empty image place holders. To be filled by running content on the page.
-    #template.cContainer(2, -0.7, 5, 4, rs)  # Empty image element, cx, cy, cw, ch
+    # Create empty image place holders. To be filled by running content on the page0
+    # template.cContainer(2, -0.7, 5, 4, rs)  # Empty image element, cx, cy, cw, ch
     # Create new document with (w,h) and fixed amount of pages.
     # Make number of pages with default document size.
     # Initially make all pages default with template2
     doc = Document(RS, pages=1, template=template) 
-    for n in range(30):
-        doc.newPage(w=RS['w']+n*20)
+    for n in range(10):
+        doc.newPage(w=RS['w']+n*100)
     return doc
     
 d = makeDocument()

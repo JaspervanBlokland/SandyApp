@@ -31,6 +31,7 @@ RS = getRootStyle(
 RS['docW'] = W + 200
 RS['docH'] = H + 200
 
+FRAMES = 1
 COLUMNS = 12
 GUTTER = 2
 TITLE = 'Pirates of the Caribbean'
@@ -89,18 +90,19 @@ def makeDocument():
     # Make number of pages with default document size.
     # Initially make all pages default with template2
     doc = Document(RS, pages=1, template=template) 
-    for n in range(30):
+    for n in range(FRAMES):
         page = doc.newPage(w=template.style['w']+n*20)
         drawBackground(page)
         drawImage(page, 'images/coin_1.png', 
-            template.style['w']/2, 280,
+            page.style['w']/2, 280,
             w=template.style['w']/1.5,
             align=CENTER, vAlign=CENTER)
         # Calculate date 2 weeks from now
         dt = datetime.now()
         d = dt.strftime("%d|%m|%y") # Make formatted string from date.
-        drawDate(page, page.style['w']/2, template.style['h']-50, 
+        drawDate(page, page.style['w']/2, page.style['h']-50, 
             d, CENTER)
+        print page.style
         drawTitle(page, page.style['w']/2, 120, 
             template.style['w'] - 2*column-2*gutter,
             TITLE, CENTER)
