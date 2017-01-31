@@ -27,10 +27,10 @@ RS = getRootStyle(
 FONT_SIZE = 24
 RS['fontSize'] = FONT_SIZE
 RS['baselineGrid'] = FONT_SIZE * 1.2
-RS['docW'] = RS['w'] + 200
-RS['docH'] = RS['h'] + 200
+RS['docW'] = RS['w'] + 0
+RS['docH'] = RS['h'] + 0
 
-RED = (1, 0, 0, 0.5)
+RED = (0, 0, 0, 0.5)
 
 def makeDocument():
 
@@ -48,7 +48,7 @@ def makeDocument():
     # Create new document with (w,h) and fixed amount of pages.
     # Make number of pages with default document size.
     # Initially make all pages default with template2
-    doc = Document(RS, pages=3, template=template) 
+    doc = Document(RS, pages=5, template=template) 
     
     doc.newStyle(name='title', fontSize=32, font='Verdana', textColor=RED)
 
@@ -65,7 +65,7 @@ def makeDocument():
         page.cText('Page %s' % pageNumber, 8, 2, 1, 1, RS, 
             textColor=0, fontSize=32)
         # TODO: Apply style direct on this function.
-        page.cText('Hallo', 4, 1, cb, 1, RS, textColor=RED)
+        page.cText('Hallo', 8, 1, cb, 1, RS, textColor=RED)
     
     return doc 
     
