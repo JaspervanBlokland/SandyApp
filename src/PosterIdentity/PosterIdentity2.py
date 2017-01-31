@@ -31,6 +31,7 @@ RS = getRootStyle(
 RS['docW'] = W + 200
 RS['docH'] = H + 200
 
+FRAMES = 1
 COLUMNS = 12
 GUTTER = 2
 TITLE = 'Pirates of the Caribbean'
@@ -103,6 +104,7 @@ def makeDocument():
         d = dt.strftime("%d|%m|%y") # Make formatted string from date.
         drawDate(page, page.style['w']/2, page.style['h']-50, 
             d, CENTER)
+        print page.style
         drawTitle(page, page.style['w']/2, 120, 
             page.style['w'] - 2*column-2*gutter,
             TITLE, CENTER)
