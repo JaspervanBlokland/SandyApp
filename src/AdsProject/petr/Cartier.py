@@ -5,19 +5,12 @@
 # on initialization, so we don't that to replace them later for our version of the 
 # root style.
 
-from pagebot import getFormattedString
 from pagebot.style import getRootStyle, MM
 # Document is the main instance holding all information about the document togethers (pages, styles, etc.)
 from pagebot.document import Document
 from pagebot.page import Template
 
-import pagesizes
-reload(pagesizes)
 from pagesizes import pageSizes
-
-import cartierparams
-reload(cartierparams)
-from cartierparams import AD_PARAMS
 
 #    Cartier ads
 
@@ -27,7 +20,7 @@ SHOW_BASELINE_GRID = False
 
 def getStyle(W, H):
     rs= getRootStyle(
-        w=W, h=H, # Default 851 x 313
+        w=W h=H, # Default 851 x 313
         showGrid=SHOW_GRID, 
         showGridColumns=SHOW_GRID_COLUMNS,
         showBaselineGrid = SHOW_BASELINE_GRID,
@@ -39,48 +32,46 @@ def getStyle(W, H):
     rs['docH'] = rs['h'] + 0
     return rs
     
-imagePath = '../content/cartier/beeld.jpg'
-logoPath = '../content/cartier/Cartier.pdf'
+RED = (0, 0, 0, 0.5)
 
-ADDRESS = 'Adres van Cartier Xxxxxxxx'
+def makeDocument():
 
-def makeAd(pageSizeName):
-    w, h = pageSizes[pageSizeName]
-    d = AD_PARAMS[pageSizeName]
-    RS = getStyle(w, h)
+    
     template = Template(RS) # Create template of main size. Front page only.
+    # Show grid columns and margins if rootStyle.showGrid or rootStyle.showGridColumns are True
+    template.grid(RS) 
+    # Show baseline grid if rs.showBaselineGrid is True
+    template.baselineGrid(RS)
+    cb = 3
+    template.cRect(1, 0, cb, 1, RS, fill=(1, 0, 0))
+    template.cRect(1+cb, 0, 3, 1, RS, fill=(0, 0, 0.5))
+    # Create empty image place holders. To be filled by running content on the page.
+    #template.cContainer(2, -0.7, 5, 4, rs)  # Empty image element, cx, cy, cw, ch
+    # Create new document with (w,h) and fixed amount of pages.
+    # Make number of pages with default document size.
+    # Initially make all pages default with template2
+    doc = Document(RS, pages=5, template=template) 
+    
+    doc.newStyle(name='title', fontSize=32, font='Verdana', textColor=RED)
 
-    maskWidth = w - d['mr']*MM - d['ml']*MM
-    maskHeight = h - d['mt']*MM - d['mb']*MM
-    logoWidth = d['lw']*MM
-    logoRightMargin = d['lrm']
-    if d['lrm'] is None:
-        logoX = w/2 - logoWidth/2
-    else:
-        logoX = w-d['lrm']*MM-logoWidth
-        
-    if d['imw'] is not None:
-        template.image(imagePath, d['imx']*MM, d['imy']*MM, 
-        w=d['imw']/100.0*maskWidth, style=RS,
-        clipRect=(d['ml']*MM, d['mt']*MM, maskWidth, maskHeight))
+    page = doc.pages[2]
+    #page.style['w'] = 400
+    #page.style['h'] = 200
+    page.cRect(1, 1, cb, 1, RS, fill=(0, 0.5, 0))
     
-    template.image(logoPath, logoX, h-d['mt']*MM+d['ll']*MM, 
-        w=logoWidth, style=RS)
-
-    address = getFormattedString(ADDRESS, dict(font='Georgia', fontSize=d['afs']))
-    template.text(address, d['aml'], d['amb']) 
+    # For all pages in the document, add page number.
+    for pageNumber in doc.pages:
+        page = doc.pages[pageNumber] # Get this page
+        # Add box with page number
+        # TODO: Vertical page index is reversed direction now.
+        page.cText('Page %s' % pageNumber, 8, 2, 1, 1, RS, 
+            textColor=0, fontSize=32)
+        # TODO: Apply style direct on this function.
+        page.cText('Hallo', 8, 1, cb, 1, RS, textColor=RED)
     
-    doc = Document(RS, pages=1, template=template) 
-    
-    page = doc.pages[1]
-        
     return doc 
-
-def makeAds():
-    for pageSizeName in pageSizes:
-        doc = makeAd(pageSizeName)
-        doc.export('_export/%s.pdf' % pageSizeName, multiPage=False)
-       
-makeAds()
+    
+d = makeDocument()
+d.export('export/FaceBookBanner.pdf')
 
 
