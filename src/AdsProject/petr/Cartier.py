@@ -10,26 +10,28 @@ from pagebot.style import getRootStyle, MM
 from pagebot.document import Document
 from pagebot.page import Template
 
+from pagesizes import pageSizes
+
+#    Cartier ads
+
 SHOW_GRID = True
 SHOW_GRID_COLUMNS = True
 SHOW_BASELINE_GRID = False
 
-PageSizes = {
-    'Spread Bleed': (301*MM, 424*MM),    'Full Page Bleed': (214*MM, 301*MM),    'Full Page A4': (210*MM, 297*MM),    'Horizontal 2/3': (145,6m*MM, 184*MM),    'Horizontal 1/3': (77.8*MM, 184*MM),    'Horizontal 1/2': (123.3*MM, 85.5*MM),    'Horizontal 1/4': (55.1*MM, 184*MM),    'Vertical 1/2': (259.6*MM, 85.5*MM),    'Vertical 1/4': (123.3*MM, 85,5*MM),    'Horizontal 1/8': (55.1*MM, 85.5*MM),    'VogueMagazine': (220*MM, 285*MM),
-}
-
-RS = getRootStyle(
-    w=851, h=313, # Default 851 x 313
-    showGrid=SHOW_GRID, 
-    showGridColumns=SHOW_GRID_COLUMNS,
-    showBaselineGrid = SHOW_BASELINE_GRID,
-    )
-FONT_SIZE = 24
-RS['fontSize'] = FONT_SIZE
-RS['baselineGrid'] = FONT_SIZE * 1.2
-RS['docW'] = RS['w'] + 0
-RS['docH'] = RS['h'] + 0
-
+def getStyle(W, H):
+    rs= getRootStyle(
+        w=W h=H, # Default 851 x 313
+        showGrid=SHOW_GRID, 
+        showGridColumns=SHOW_GRID_COLUMNS,
+        showBaselineGrid = SHOW_BASELINE_GRID,
+        )
+    FONT_SIZE = 24
+    rs['fontSize'] = FONT_SIZE
+    rs['baselineGrid'] = FONT_SIZE * 1.2
+    rs['docW'] = rs['w'] + 0
+    rs['docH'] = rs['h'] + 0
+    return rs
+    
 RED = (0, 0, 0, 0.5)
 
 def makeDocument():
