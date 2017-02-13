@@ -42,7 +42,7 @@ def getStyle(W, H):
 imagePath = '../content/cartier/beeld.jpg'
 logoPath = '../content/cartier/Cartier.pdf'
 
-ADDRESS = 'Adres van Cartier Xxxxxxxx'
+ADDRESS = 'Amsterdam - P.C. Hooftstraat 132-134 - 020 719 24 55'
 
 def makeAd(pageSizeName):
     w, h = pageSizes[pageSizeName]
