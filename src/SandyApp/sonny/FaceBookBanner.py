@@ -47,6 +47,6 @@ def makeDocument():
     return doc
 
 d = makeDocument()
-d.export('export//FaceBookBanner.pdf')
+d.export('_export//FaceBookBanner.pdf')
 
 

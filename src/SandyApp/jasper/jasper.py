@@ -19,4 +19,4 @@ def makedocument():
     return doc
     
 d = makedocument()
-d.export('export/facebookbanner.pdf')    
+d.export('_export/facebookbanner.pdf')    
