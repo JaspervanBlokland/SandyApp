@@ -43,6 +43,8 @@ imagePath = '../content/cartier/beeld.jpg'
 logoPath = '../content/cartier/Cartier.pdf'
 
 ADDRESS = 'Amsterdam - P.C. Hooftstraat 132-134 - 020 719 24 55'
+DIAMOND = 'Diamond Collection'
+
 
 def makeAd(pageSizeName):
     w, h = pageSizes[pageSizeName]
@@ -69,6 +71,9 @@ def makeAd(pageSizeName):
 
     address = getFormattedString(ADDRESS, dict(font='Georgia', fontSize=d['afs']))
     template.text(address, d['aml'], d['amb']) 
+    
+    diamond = getFormattedString(DIAMOND, dict(font='Georgia', fontSize=d['afs']))
+    template.text(diamond, d['aml'], d['amb']) 
     
     doc = Document(RS, pages=1, template=template) 
     

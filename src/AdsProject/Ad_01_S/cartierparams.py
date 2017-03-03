@@ -14,12 +14,14 @@ AD_PARAMS = { # Values in millmeters
     # aml = Address margin left
     # amb = Address margin bottom
     # afs = Address font size
+    # dml = Diamond margin left
+    # dmb = Diamond margin bottom
     #
     # imw == None --> Don't show image
     # lrm == None --> Center logo
     #
     'SpreadBleed':     dict(ml=10, mr=10, mt=20, mb=40, 
-        aml=27, amb=30, afs=18, lw=100, lrm=10, ll=-17, imx=0, imy=-130, imw=150),    'FullPageBleed':   dict(ml=10, mr=10, mt=20, mb=30, 
+        aml=27, amb=30, afs=18, dml=40, dmb=30, lw=100, lrm=10, ll=-17, imx=0, imy=-130, imw=150),    'FullPageBleed':   dict(ml=10, mr=10, mt=20, mb=30, 
         aml=30, amb=33, afs=12, lw=70, lrm=10, ll=-8, imx=10, imy=0, imw=111),    'FullPageA4':      dict(ml=10, mr=10, mt=20, mb=30, 
         aml=30, amb=33, afs=12, lw=70, lrm=10, ll=-9, imx=10, imy=0, imw=110),    'Horizontal2_3':   dict(ml=0, mr=0, mt=10, mb=30, 
         aml=30, amb=10, afs=10, lw=65, lrm=10, ll=-15, imx=0, imy=0, imw=120),    'Horizontal1_3':   dict(ml=0, mr=0, mt=20, mb=30, 
