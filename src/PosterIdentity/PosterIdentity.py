@@ -9,9 +9,9 @@ from datetime import datetime # Make date fit today.
 
 from pagebot.style import getRootStyle, makeStyle, MM, CENTER, NO_COLOR
 # Document is the main instance holding all information about the document togethers (pages, styles, etc.)
-from pagebot import getFormattedString
+from pagebot import newFS
 from pagebot.document import Document
-from pagebot.page import Template
+from pagebot.elements import Template
 
 SHOW_GRID = False
 SHOW_GRID_COLUMNS = False
@@ -49,7 +49,7 @@ def drawImage(template, path, x, y, w, align, vAlign):
 def drawDate(template, x, y, dateString, align):
     style = makeStyle(template.style, align=align, fontSize=25, 
         font='Antenna-ExtraLight', textFill=1)
-    fs = getFormattedString(dateString, style);
+    fs = newFS(dateString, style);
     template.text(fs, x, y, style=style) 
 
 def drawTitle(template, x, y, w, title, align):
